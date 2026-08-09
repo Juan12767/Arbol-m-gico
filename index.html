@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Árbol de Amor Animado</title>
+
+
+    <!-- Autoría y derechos -->
+
+    <meta
+        name="author"
+        content="Zero"
+    >
+
+    <meta
+        name="copyright"
+        content="Zero - Código libre no comercial"
+    >
+
+    <meta
+        name="description"
+        content="Árbol de Amor Animado: una sorpresa interactiva y romántica para dedicar a tu pareja o ser querido."
+    >
+
+    <meta
+        name="keywords"
+        content="amor, sorpresa, romántico, dedicatoria, animación, árbol, corazones, pareja, aniversario, regalo digital"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+
+    <!-- ============================= -->
+    <!-- ESTILOS -->
+    <!-- ============================= -->
+
+    <link
+        rel="stylesheet"
+        href="Css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="Css/background.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="Css/carta.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="Css/style.mobile.css"
+        media="only screen and (max-width: 600px)"
+    >
+
+
+    <!-- ============================= -->
+    <!-- ANIMACIÓN DE CORAZONES -->
+    <!-- ============================= -->
+
+    <style>
+
+        .tree-container {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: 400px;
+
+            height: 400px;
+
+            z-index: 2;
+
+        }
+
+
+        .animated-heart {
+
+            transform-origin: center;
+
+            animation:
+                beat 1s infinite;
+
+        }
+
+
+        @keyframes beat {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(1);
+
+            }
+
+            15% {
+
+                transform:
+                    scale(1.18);
+
+            }
+
+            28% {
+
+                transform:
+                    scale(.92);
+
+            }
+
+            42% {
+
+                transform:
+                    scale(1.12);
+
+            }
+
+            58% {
+
+                transform:
+                    scale(.96);
+
+            }
+
+            75% {
+
+                transform:
+                    scale(1.05);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================================= -->
+    <!-- PANTALLA DE INTRODUCCIÓN -->
+    <!-- ================================= -->
+
+    <div id="intro-screen">
+
+        <div class="intro-content">
+
+            <div class="intro-small">
+                Para ti, Heejin 💜
+            </div>
+
+
+            <h1>
+                Ya casi un año...
+            </h1>
+
+
+            <p class="intro-message">
+
+                Y estoy muy orgulloso de ti,
+                de nosotros y de todo lo que
+                hemos vivido juntos. 🌸
+
+            </p>
+
+
+            <div class="intro-line"></div>
+
+
+            <!-- CONTADOR DE DÍAS -->
+
+            <div class="intro-counter">
+
+                <span id="intro-days">
+                    0
+                </span>
+
+                <small>
+                    DÍAS JUNTOS
+                </small>
+
+            </div>
+
+
+            <!-- HORAS / MINUTOS / SEGUNDOS -->
+
+            <div class="intro-time">
+
+                <span id="intro-hours">
+                    00
+                </span>
+
+                <b>:</b>
+
+                <span id="intro-minutes">
+                    00
+                </span>
+
+                <b>:</b>
+
+                <span id="intro-seconds">
+                    00
+                </span>
+
+            </div>
+
+
+            <!-- BOTÓN -->
+
+            <button id="continue-btn">
+                Continuar 💜
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- ESCENA PRINCIPAL -->
+    <!-- ================================= -->
+
+    <div id="floating-objects"></div>
+
+
+    <div id="moon"></div>
+
+
+    <div
+        class="dedication-text"
+        id="dedication-text"
+    >
+
+        <div
+            class="signature"
+            id="signature"
+        ></div>
+
+    </div>
+
+
+    <div
+        class="tree-container"
+        id="tree-container"
+    ></div>
+
+
+    <!-- ================================= -->
+    <!-- CARTA / SOBRE -->
+    <!-- ================================= -->
+
+    <!--
+        El sobre principal es creado por carta.js.
+        No ponemos aquí otro .envelope para evitar
+        tener dos sistemas de carta diferentes.
+    -->
+
+
+    <!-- ================================= -->
+    <!-- FRASE DEBAJO DEL SOBRE -->
+    <!-- ================================= -->
+
+    <div class="letter-hint">
+        Tengo algo para ti... 💌
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- MÚSICA -->
+    <!-- ================================= -->
+
+    <audio
+        src="Music/Indila - Love story (Español).mp3"
+        id="bg-music"
+        preload="auto"
+    ></audio>
+
+
+    <!-- ================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ================================= -->
+
+    <script src="Js/script.js"></script>
+
+    <script src="Js/background.js"></script>
+
+    <script src="Js/particles.js"></script>
+
+    <script src="Js/ambient.js"></script>
+
+    <script src="Js/parallax.js"></script>
+
+    <script src="Js/intro.js"></script>
+
+    <script src="Js/carta.js"></script>
+
+
+</body>
+
+</html>

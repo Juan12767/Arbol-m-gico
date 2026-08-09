@@ -1,0 +1,1064 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #fcfcfc;
+}
+
+#fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    color: #e60026;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-shadow: 2px 2px 8px #ffb3b3;
+    z-index: 2;
+    letter-spacing: 0.5rem;
+    user-select: none;
+    display: flex;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.letter {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.tree-container {
+  /* Asegura que el contenedor tenga el nuevo tamaño */
+  width: 520px !important;
+  height: 520px !important;
+  /* Centrado absoluto */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  animation: treeBreath 5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.tree-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tree-container svg path {
+  transition: fill-opacity 0.5s, stroke-dashoffset 1.2s;
+}
+
+.tree-container svg.move-and-scale {
+  transition: transform 1.2s cubic-bezier(.77,0,.18,1);
+  transform: translateX(200px) scale(1.35);
+}
+
+.dedication-text {
+  position: absolute;
+  top: 50%;
+  left: 3%;
+  right: auto;
+  transform: translateY(-50%);
+  min-width: 320px;
+  max-width: 600px;
+  width: 60rem;
+  font-size: 1.5rem;
+  color: #050505;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-line;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 90vh;
+  overflow: visible;
+  padding: 1em 1.5em 1em 1em;
+  background: rgba(255,255,255,0.92);
+  border-radius: 0.7em;
+  box-shadow: 0 2px 16px #e6002611;
+  /* Permite que la caja crezca en altura y ancho */
+  transition: max-width 0.4s, min-width 0.4s, width 0.4s;
+}
+
+.dedication-text.typing {
+  opacity: 1;
+  animation: fadeInText 0.6s;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#floating-objects {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.floating-petal{
+
+    position:absolute;
+
+    pointer-events:none;
+
+    will-change:transform,opacity;
+
+    width:12px;
+
+    height:16px;
+
+    opacity:.92;
+
+    border-radius:65% 35% 65% 35%;
+
+    background:
+    radial-gradient(circle at 30% 30%,
+    #ffe7fb 0%,
+    #ffb7ec 35%,
+    #d98dff 70%,
+    #9f5dff 100%);
+
+    box-shadow:
+    0 0 6px rgba(255,180,255,.35);
+
+}
+
+.signature {
+  /* Cambia posición absoluta a relativa y pon margen arriba */
+  position: relative;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  margin-top: 1.5em;
+  margin-left: 0;
+  display: block;
+  font-family: 'Dancing Script', 'Pacifico', cursive, sans-serif;
+  font-size: 2.2rem;
+  color: #e60026;
+  opacity: 0;
+  z-index: 5;
+  white-space: pre;
+  pointer-events: none;
+  transition: opacity 0.7s;
+}
+
+.signature.visible {
+  opacity: 1;
+  animation: signature-draw 2.2s steps(24) forwards;
+}
+
+@keyframes signature-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.countdown {
+  position: fixed;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.6rem;
+  color: #333;
+  background: #fff8;
+  padding: 0.4em 1em;
+  border-radius: 1em;
+  z-index: 6;
+  box-shadow: 0 2px 8px #e6002611;
+  pointer-events: none;
+  letter-spacing: 0.05em;
+  min-width: 220px;
+  text-align: center;
+  transition: opacity 0.8s cubic-bezier(.77,0,.18,1), transform 0.8s cubic-bezier(.77,0,.18,1);
+  opacity: 0;
+  transform: translateX(-50%) translateY(30px);
+}
+
+.countdown.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Responsivo para móviles: la caja ocupa casi todo el ancho arriba del árbol */
+@media (max-width: 700px) {
+  .dedication-text {
+    display: none !important;
+}
+  .signature {
+    font-size: 1.3rem;
+  }
+}
+
+/*==============================
+      RESPIRACIÓN DEL ÁRBOL
+==============================*/
+
+@keyframes treeBreath{
+
+    0%{
+
+        transform:
+        translate(-50%,-50%)
+        scale(1);
+
+    }
+
+    50%{
+
+        transform:
+        translate(-50%,-50%)
+        scale(1.025);
+
+    }
+
+    100%{
+
+        transform:
+        translate(-50%,-50%)
+        scale(1);
+
+    }
+
+}
+
+/* ================================================= */
+/* PANTALLA DE INTRODUCCIÓN */
+/* ================================================= */
+
+#intro-screen {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 9999;
+
+    background: transparent;
+
+    transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+
+}
+
+
+/* Contenido central */
+
+.intro-content {
+
+    width: min(650px, 90vw);
+
+    text-align: center;
+
+    color: white;
+
+    animation: introAppear 1.5s ease forwards;
+
+}
+
+
+/* Pequeño texto superior */
+
+.intro-small {
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 1.1rem;
+
+    letter-spacing: 0.3em;
+
+    color: #e8c8ff;
+
+    margin-bottom: 20px;
+
+    opacity: 0.9;
+
+}
+
+
+/* Título */
+
+.intro-content h1 {
+
+    margin: 0;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(3rem, 8vw, 6rem);
+
+    font-weight: 400;
+
+    line-height: 1.1;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #f0c9ff,
+            #ffb9df,
+            #ffffff
+        );
+
+    background-size: 300% auto;
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+
+    animation:
+        introTitleGlow 5s ease-in-out infinite;
+
+}
+
+
+/* Mensaje */
+
+.intro-message {
+
+    margin:
+        30px auto 25px;
+
+    max-width: 520px;
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size:
+        clamp(1rem, 2vw, 1.3rem);
+
+    line-height: 1.7;
+
+    color: #f4e9ff;
+
+    opacity: 0.9;
+
+}
+
+
+/* Línea decorativa */
+
+.intro-line {
+
+    width: 90px;
+
+    height: 1px;
+
+    margin: 14px auto 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #d9a7ff,
+            transparent
+        );
+
+}
+
+/* ================================================= */
+/* CONTADOR */
+/* ================================================= */
+
+.intro-counter {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 10px;
+
+}
+
+
+.intro-counter span {
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(4rem, 9vw, 6.5rem);
+
+    line-height: 1;
+
+    font-weight: 400;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 20px rgba(214, 153, 255, .5),
+        0 0 50px rgba(255, 120, 210, .25);
+
+}
+
+
+.intro-counter small {
+
+    margin: 0;
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size: .9rem;
+
+    letter-spacing: .35em;
+
+    color: #e5caff;
+
+}
+
+/* ================================================= */
+/* HORAS */
+/* ================================================= */
+
+.intro-time {
+
+    margin-top: 12px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(1rem, 3vw, 1.5rem);
+
+    letter-spacing: .15em;
+
+    color: #e8d6ff;
+
+}
+
+
+.intro-time b {
+
+    color: #c58aff;
+
+    font-weight: normal;
+
+}
+
+
+/* ================================================= */
+/* BOTÓN */
+/* ================================================= */
+
+#continue-btn {
+
+    margin-top: 40px;
+
+    padding:
+        14px 35px;
+
+    border: 1px solid
+        rgba(255,255,255,.35);
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(155, 90, 255, .35),
+            rgba(255, 105, 190, .25)
+        );
+
+    color: white;
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 1rem;
+
+    letter-spacing: .05em;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 0 25px
+        rgba(180, 100, 255, .2);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+
+}
+
+
+#continue-btn:hover {
+
+    transform:
+        translateY(-3px)
+        scale(1.04);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(155, 90, 255, .55),
+            rgba(255, 105, 190, .4)
+        );
+
+    box-shadow:
+        0 0 35px
+        rgba(215, 130, 255, .4);
+
+}
+
+
+#continue-btn:active {
+
+    transform:
+        scale(.96);
+
+}
+
+
+/* ================================================= */
+/* ANIMACIONES */
+/* ================================================= */
+
+@keyframes introAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes introTitleGlow {
+
+    0% {
+
+        background-position:
+            0% center;
+
+    }
+
+    50% {
+
+        background-position:
+            100% center;
+
+    }
+
+    100% {
+
+        background-position:
+            0% center;
+
+    }
+
+}
+
+
+/* ================================================= */
+/* OCULTAR INTRO */
+/* ================================================= */
+
+#intro-screen.hide {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+}
+
+
+/* ================================================= */
+/* MÓVIL */
+/* ================================================= */
+
+@media (max-width: 600px) {
+
+    .intro-content {
+
+        width: 88vw;
+
+    }
+
+
+    .intro-small {
+
+        font-size: .85rem;
+
+        letter-spacing: .2em;
+
+    }
+
+
+    .intro-message {
+
+        font-size: 1rem;
+
+        line-height: 1.5;
+
+    }
+
+
+    .intro-counter small {
+
+        font-size: .7rem;
+
+        letter-spacing: .25em;
+
+    }
+
+
+    #continue-btn {
+
+        margin-top: 30px;
+
+        padding:
+            12px 28px;
+
+    }
+
+}
+
+/* ==========================================
+   CORAZONES INTERACTIVOS DEL ÁRBOL
+   ========================================== */
+
+.tree-container svg path.heart-interactive {
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.tree-container svg path.heart-interactive:hover {
+    transform: scale(1.12);
+    filter:
+        drop-shadow(0 0 8px rgba(255, 105, 180, 0.9))
+        drop-shadow(0 0 14px rgba(170, 80, 255, 0.7));
+}
+
+
+/* ==========================================
+   MENSAJE DEL CORAZÓN
+   ========================================== */
+
+.heart-message {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.7);
+
+    width: min(420px, 80vw);
+
+    padding: 30px 28px;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(35, 15, 65, 0.96),
+            rgba(91, 35, 110, 0.94)
+        );
+
+    border: 1px solid rgba(255, 180, 240, 0.5);
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 0 25px rgba(190, 90, 255, 0.35),
+        0 0 70px rgba(255, 120, 220, 0.18);
+
+    color: #fff;
+
+    text-align: center;
+
+    font-family:
+        'Courier New',
+        Courier,
+        monospace;
+
+    font-size: 1.15rem;
+
+    line-height: 1.7;
+
+    opacity: 0;
+
+    z-index: 200;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s cubic-bezier(.17,.67,.3,1.3);
+}
+
+
+/* corazón pequeño arriba del mensaje */
+
+.heart-message::before {
+    content: "💜";
+
+    display: block;
+
+    font-size: 2.2rem;
+
+    margin-bottom: 10px;
+
+    animation: messageHeartBeat 1.2s infinite;
+}
+
+
+.heart-message.visible {
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+
+@keyframes messageHeartBeat {
+
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+
+}
+
+
+/* ==========================================
+   FONDO OSCURO DEL MENSAJE
+   ========================================== */
+
+.heart-message-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(5, 0, 15, 0.25);
+
+    backdrop-filter: blur(4px);
+
+    -webkit-backdrop-filter: blur(4px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 190;
+
+    transition: opacity 0.4s ease;
+}
+
+
+.heart-message-overlay.visible {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+/* ==========================================
+   BOTÓN CERRAR
+   ========================================== */
+
+.heart-message-close {
+
+    display: block;
+
+    margin: 20px auto 0;
+
+    padding: 8px 22px;
+
+    border-radius: 30px;
+
+    border: 1px solid rgba(255, 190, 240, 0.6);
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: white;
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.heart-message-close:hover {
+
+    background: rgba(255, 140, 220, 0.2);
+
+    transform: scale(1.05);
+
+}
+
+/* ==========================================
+   LLUVIA DE PALABRAS ROMÁNTICAS
+   ========================================== */
+
+.love-word {
+
+    position: fixed;
+
+    top: -50px;
+
+    left: 0;
+
+    color: rgba(255, 190, 240, 0.9);
+
+    font-family:
+        'Courier New',
+        Courier,
+        monospace;
+
+    font-size:
+        clamp(0.8rem, 1.4vw, 1.15rem);
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    z-index: 15;
+
+    text-shadow:
+        0 0 6px rgba(255, 130, 220, 0.8),
+        0 0 15px rgba(150, 80, 255, 0.5);
+
+    animation:
+        loveWordFall linear forwards;
+}
+
+
+@keyframes loveWordFall {
+
+    0% {
+
+        transform:
+            translateY(-60px)
+            translateX(0)
+            rotate(-5deg);
+
+        opacity: 0;
+
+    }
+
+    10% {
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        transform:
+            translateY(50vh)
+            translateX(var(--drift))
+            rotate(5deg);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(115vh)
+            translateX(calc(var(--drift) * -1))
+            rotate(-4deg);
+
+        opacity: 0;
+
+    }
+
+}
+
+/* ==========================================
+   LUNA ROMÁNTICA
+   ========================================== */
+
+#moon {
+    position: fixed;
+    width: 115px;
+    height: 115px;
+
+    top: 8%;
+    right: 8%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fff8ff 0%,
+            #eadcff 35%,
+            #c9a8ff 70%,
+            #9b6de3 100%
+        );
+
+    box-shadow:
+        0 0 15px rgba(230, 200, 255, 0.8),
+        0 0 35px rgba(190, 130, 255, 0.45),
+        0 0 70px rgba(160, 90, 255, 0.22);
+
+    z-index: 1;
+
+    animation:
+        moonFloat 5s ease-in-out infinite,
+        moonGlow 4s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+/* Pequeños cráteres */
+
+#moon::before,
+#moon::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(130, 90, 180, 0.16);
+}
+
+#moon::before {
+    width: 25px;
+    height: 25px;
+    top: 24px;
+    left: 30px;
+
+    box-shadow:
+        38px 18px 0 5px rgba(130, 90, 180, 0.12),
+        18px 48px 0 8px rgba(130, 90, 180, 0.10),
+        52px 62px 0 4px rgba(130, 90, 180, 0.14);
+}
+
+#moon::after {
+    width: 12px;
+    height: 12px;
+    top: 68px;
+    left: 27px;
+
+    box-shadow:
+        42px -40px 0 2px rgba(130, 90, 180, 0.10),
+        28px 18px 0 3px rgba(130, 90, 180, 0.08);
+}
+
+
+/* Movimiento suave */
+
+@keyframes moonFloat {
+
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+}
+
+
+/* Brillo de la luna */
+
+@keyframes moonGlow {
+
+    0% {
+        box-shadow:
+            0 0 15px rgba(230, 200, 255, 0.8),
+            0 0 35px rgba(190, 130, 255, 0.45),
+            0 0 70px rgba(160, 90, 255, 0.22);
+    }
+
+    100% {
+        box-shadow:
+            0 0 22px rgba(255, 220, 255, 0.95),
+            0 0 48px rgba(200, 140, 255, 0.6),
+            0 0 90px rgba(170, 100, 255, 0.3);
+    }
+
+}
+
+/* ==========================================
+   OCULTAR ANTIGUA DEDICATORIA
+   La carta nueva reemplaza la nota blanca
+   ========================================== */
+
+#dedication-text {
+    display: none !important;
+}
